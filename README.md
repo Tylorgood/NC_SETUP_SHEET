@@ -1,3 +1,10 @@
+************TODO*************
+
+1. DASHBOARD (VISUAL MANGEMENT OF THE TOOL)
+2. SHAREPOINT INTEGRATION (ROBUST FUNCTIONALITY)
+
+
+
 # MCAM Assistant v0.1
 
 MCAM Assistant is a local Codex plugin scaffold for CNC manufacturing workflows. It ingests Mastercam-adjacent files, NC programs, and engineering instructions, then produces structured JSON, a revisioned NC program with enriched comments, and setup sheets in HTML, PDF, and Excel-compatible XLSX formats.
