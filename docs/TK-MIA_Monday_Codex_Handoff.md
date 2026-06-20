@@ -35,6 +35,8 @@ The parser must become dependable at:
 
 Setup sheets should remain in scope only as a practical way to inspect and validate parser output. Future modules should wait until parser reliability is proven.
 
+The future super-tool expansion plan lives in `docs/TK-MIA_Super_Tool_Upgrade_Roadmap.md`. Treat it as a post-parser roadmap. Do not implement it until the parser has reliable positive results on real NC files.
+
 It can:
 
 - Run from only an NC file.

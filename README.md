@@ -17,6 +17,8 @@ Every development session should start with the NC parser and ask:
 
 Do not prioritize CAM extraction, inventory systems, report editors, CAD renders, photo databases, tool-projection policy, or other future modules until the NC parser is solid, repeatable, and well tested. Setup sheets are useful now, but they should be treated as parser validation output first.
 
+The larger TK-MIA platform vision is captured in [docs/TK-MIA_Super_Tool_Upgrade_Roadmap.md](docs/TK-MIA_Super_Tool_Upgrade_Roadmap.md). That roadmap is intentionally gated until the NC parser returns reliable positive results on real programs.
+
 ## What v0.1 does
 
 - Extracts tooling, holder assemblies, projection lengths, work offsets, stock, and setup notes from JSON, XML, text, ZIP, and inspectable Mastercam-adjacent files.
