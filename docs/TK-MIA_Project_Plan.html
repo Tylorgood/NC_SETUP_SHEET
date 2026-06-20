@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TK-MIA Project Plan</title>
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #5b6475;
+      --line: #cbd5e1;
+      --paper: #f8fafc;
+      --panel: #ffffff;
+      --blue: #1d4ed8;
+      --green: #047857;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --steel: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.5;
+    }
+
+    .hero {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 42px 28px 34px;
+      border-bottom: 6px solid var(--blue);
+    }
+
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      margin: 0 0 8px;
+      color: #93c5fd;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 860px;
+      margin: 18px 0 0;
+      color: #dbeafe;
+      font-size: 18px;
+    }
+
+    main {
+      padding: 28px;
+    }
+
+    section {
+      max-width: 1180px;
+      margin: 0 auto 28px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 24px;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+    }
+
+    .priority {
+      border-left: 8px solid var(--red);
+      background: #fff7ed;
+    }
+
+    .priority strong {
+      color: var(--red);
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 6px 8px 0;
+      padding: 4px 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #f8fafc;
+      color: var(--steel);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .phase {
+      min-height: 245px;
+      border-top: 7px solid var(--steel);
+    }
+
+    .phase:nth-child(1) { border-top-color: var(--red); }
+    .phase:nth-child(2) { border-top-color: var(--blue); }
+    .phase:nth-child(3) { border-top-color: var(--green); }
+    .phase:nth-child(4) { border-top-color: var(--amber); }
+    .phase:nth-child(5) { border-top-color: #6d28d9; }
+
+    ul {
+      margin: 8px 0 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    .role {
+      border-left: 5px solid var(--blue);
+    }
+
+    .role:nth-child(2) { border-left-color: var(--green); }
+    .role:nth-child(3) { border-left-color: var(--amber); }
+    .role:nth-child(4) { border-left-color: #6d28d9; }
+
+    .ascii {
+      margin: 0;
+      padding: 16px;
+      overflow-x: auto;
+      color: #0f172a;
+      background: #eef2f7;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.25;
+      white-space: pre;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metric {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .metric b {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--blue);
+      font-size: 24px;
+    }
+
+    .callout {
+      border: 1px solid #93c5fd;
+      background: #eff6ff;
+    }
+
+    .footer {
+      padding: 24px 28px 42px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .metrics {
+        grid-template-columns: 1fr;
+      }
+
+      main,
+      .hero {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .hero {
+        color: #000000;
+        background: #ffffff;
+        border-bottom-color: #000000;
+      }
+
+      .hero p,
+      .eyebrow {
+        color: #000000;
+      }
+
+      .card,
+      .metric,
+      .ascii {
+        box-shadow: none;
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="wrap">
+      <p class="eyebrow">TK-MIA / NC Setup Sheet Project</p>
+      <h1>Manufacturing Intelligence That Starts With Trustworthy NC Parsing</h1>
+      <p>
+        The goal is not to replace machinists, programmers, or engineers. The goal is to capture what the best people already know, organize it, and make every repeat job easier to set up, document, and improve.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <section class="card priority">
+      <h2>First Priority: Make The NC Parser Reliable</h2>
+      <p>
+        <strong>No feature sprawl.</strong> The first milestone is a dependable NC parsing tool that can read real programs and produce structured data everyone can trust. Setup sheets, photo references, tool projections, inventory, and future integrations all depend on this foundation.
+      </p>
+      <span class="tag">NC parser first</span>
+      <span class="tag">Never overwrite originals</span>
+      <span class="tag">Human approval required</span>
+      <span class="tag">Structured JSON output</span>
+      <span class="tag">Shop-floor useful</span>
+    </section>
+
+    <section class="grid grid-2">
+      <div class="card">
+        <h2>What We Are Building</h2>
+        <p>
+          TK-MIA is a local-first manufacturing assistant for NC program review, setup sheets, tool and fixture knowledge, photo documentation, and job-linked shop memory.
+        </p>
+        <ul>
+          <li>Reads NC programs and extracts tools, operations, offsets, feeds, speeds, and setup comments.</li>
+          <li>Creates setup sheets with practical ASCII visuals and photo placeholders.</li>
+          <li>Builds a repeatable knowledge base from real shop jobs.</li>
+          <li>Keeps every recommendation auditable and every original file untouched.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h2>What Success Looks Like</h2>
+        <p>
+          A machinist opens a setup package and immediately understands what tools are needed, where the part zero is, what fixture is involved, what photos to check, and what changed since the last revision.
+        </p>
+        <ul>
+          <li>Less time searching for fixtures, taps, holders, and old setup notes.</li>
+          <li>Fewer unclear repeat jobs.</li>
+          <li>Faster first-piece setup.</li>
+          <li>Better training for newer machinists and better support for off-shifts.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Realistic Timeline</h2>
+      <div class="timeline">
+        <div class="card phase">
+          <h3>Phase 1: Parser Baseline</h3>
+          <p><strong>Now to 2 weeks</strong></p>
+          <ul>
+            <li>Test real NC files.</li>
+            <li>Improve tool and operation detection.</li>
+            <li>Validate G54/G55 and canned cycles.</li>
+            <li>Build small golden-program set.</li>
+          </ul>
+        </div>
+        <div class="card phase">
+          <h3>Phase 2: Setup Sheets</h3>
+          <p><strong>2 to 4 weeks</strong></p>
+          <ul>
+            <li>Refine HTML/PDF/Excel sheets.</li>
+            <li>Add standard shop notes.</li>
+            <li>Improve ASCII setup visuals.</li>
+            <li>Collect machinist feedback.</li>
+          </ul>
+        </div>
+        <div class="card phase">
+          <h3>Phase 3: Photos</h3>
+          <p><strong>1 to 2 months</strong></p>
+          <ul>
+            <li>Add Photo A-H references.</li>
+            <li>Start setup photo folders.</li>
+            <li>Label common fixtures and stops.</li>
+            <li>Connect photos to repeat jobs.</li>
+          </ul>
+        </div>
+        <div class="card phase">
+          <h3>Phase 4: Tool Rules</h3>
+          <p><strong>2 to 3 months</strong></p>
+          <ul>
+            <li>Add minimum projection rules.</li>
+            <li>Standardize tool labels.</li>
+            <li>Track holders and fixture IDs.</li>
+            <li>Flag missing setup data.</li>
+          </ul>
+        </div>
+        <div class="card phase">
+          <h3>Phase 5: Super Tool</h3>
+          <p><strong>After proof</strong></p>
+          <ul>
+            <li>Inventory system.</li>
+            <li>Fixture database.</li>
+            <li>Knowledge graph.</li>
+            <li>CAM and machine plugins.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-4">
+      <div class="card role">
+        <h3>Machinists</h3>
+        <p>Help make the setup sheets true to the floor.</p>
+        <ul>
+          <li>Point out bad assumptions.</li>
+          <li>Add setup photos.</li>
+          <li>Mark missing fixture details.</li>
+          <li>Tell us what saves time.</li>
+        </ul>
+      </div>
+      <div class="card role">
+        <h3>Programmers</h3>
+        <p>Help make the parser understand real programs.</p>
+        <ul>
+          <li>Share proven NC examples.</li>
+          <li>Standardize comments where possible.</li>
+          <li>Identify post quirks.</li>
+          <li>Review operation detection.</li>
+        </ul>
+      </div>
+      <div class="card role">
+        <h3>Engineering</h3>
+        <p>Help turn repeat setup knowledge into a system.</p>
+        <ul>
+          <li>Define approval rules.</li>
+          <li>Set projection standards.</li>
+          <li>Prioritize painful jobs.</li>
+          <li>Keep revisions auditable.</li>
+        </ul>
+      </div>
+      <div class="card role">
+        <h3>Leadership</h3>
+        <p>Help protect time for practical adoption.</p>
+        <ul>
+          <li>Start with one machine or cell.</li>
+          <li>Reward useful documentation.</li>
+          <li>Support photo capture.</li>
+          <li>Measure time saved.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Setup Sheet Vision</h2>
+      <p>
+        The first useful visual does not need CAD. It can be a clear ASCII sketch that shows the fixture, datum, flip direction, and photo references.
+      </p>
+      <pre class="ascii">WHOLE JOB - SIDE BY SIDE VISE SETUP
+
+OP1 / G54 - TOP SIDE                        OP2 / G55 - Y-AXIS FLIP SIDE
+MACHINE +Y / BACK JAW                       MACHINE +Y / BACK JAW
+--------------------------------------      --------------------------------------
+| FIXED JAW / Y0 DATUM               |      | FIXED JAW / Y0 DATUM               |
+--------------------------------------      --------------------------------------
+      ^ G54 X0 Y0                                                G55 X0 Y0 ^
+      |                                                     RIGHT-SIDE DATUM |
+X0,Y0 +--------------------------+ X+            +--------------------------+ G55
+      | O                    O   |               |                          | X0,Y0
+      |       TOP SIDE UP        |               |       PART FLIPPED       |
+      | O                    O   |               |   MIRROR ABOUT Y AXIS    |
+      +--------------------------+               +--------------------------+
+          Y- / INTO VISE                              Y- / INTO VISE
+
+Photo A Raw Stock   Photo D G54 Location   Photo H Overall Setup</pre>
+    </section>
+
+    <section>
+      <h2>How We Measure Progress</h2>
+      <div class="metrics">
+        <div class="metric">
+          <b>20+</b>
+          Known NC files parsed without breaking.
+        </div>
+        <div class="metric">
+          <b>90%</b>
+          Tool and operation extraction accuracy target.
+        </div>
+        <div class="metric">
+          <b>0</b>
+          Original production programs overwritten.
+        </div>
+        <div class="metric">
+          <b>A-H</b>
+          Standard photo references for every mature setup.
+        </div>
+      </div>
+    </section>
+
+    <section class="grid grid-3">
+      <div class="card">
+        <h3>Near-Term Data To Collect</h3>
+        <ul>
+          <li>Good NC programs from repeat jobs.</li>
+          <li>Bad or confusing NC programs for parser tests.</li>
+          <li>Setup sheets that already work well.</li>
+          <li>Tooling labels and holder notes.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Future Shop Rules</h3>
+        <ul>
+          <li>Minimum tool projections.</li>
+          <li>Fixture naming standards.</li>
+          <li>Photo naming standards.</li>
+          <li>Approval and revision policies.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What We Avoid Early</h3>
+        <ul>
+          <li>Big database before parser proof.</li>
+          <li>Fancy graphics before clear data.</li>
+          <li>Automatic NC edits without approval.</li>
+          <li>Inventory sprawl before shop feedback.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card callout">
+      <h2>The Human Part</h2>
+      <p>
+        The best version of TK-MIA is built with the people who actually run the jobs. Every photo, correction, label, setup note, and parser test makes the system more useful. This is how tribal knowledge becomes shared shop knowledge without taking respect away from the people who earned it.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    TK-MIA Project Plan - NC parser first, setup knowledge always practical, original programs never overwritten.
+  </footer>
+</body>
+</html>

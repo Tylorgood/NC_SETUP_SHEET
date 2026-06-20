@@ -19,6 +19,8 @@ Do not prioritize CAM extraction, inventory systems, report editors, CAD renders
 
 The larger TK-MIA platform vision is captured in [docs/TK-MIA_Super_Tool_Upgrade_Roadmap.md](docs/TK-MIA_Super_Tool_Upgrade_Roadmap.md). That roadmap is intentionally gated until the NC parser returns reliable positive results on real programs.
 
+A browser-friendly plan for sharing the vision with machinists, programmers, engineering, and leadership is available at [docs/TK-MIA_Project_Plan.html](docs/TK-MIA_Project_Plan.html).
+
 ## What v0.1 does
 
 - Extracts tooling, holder assemblies, projection lengths, work offsets, stock, and setup notes from JSON, XML, text, ZIP, and inspectable Mastercam-adjacent files.
