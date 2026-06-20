@@ -1,0 +1,358 @@
+# Codex Build Prompt: TK-MIA Software Planning Package
+
+You are helping build **TK-MIA: ThyssenKrupp Manufacturing Intelligence Agent**.
+
+Create a complete software development plan for a local-first manufacturing intelligence platform that helps engineering and shop-floor personnel with NC program review, setup sheets, tooling inventory, fixture inventory, photo documentation, and job-linked manufacturing knowledge.
+
+## Core Mission
+
+Build an extensible AI employee for the engineering department that behaves like a:
+
+* Senior Manufacturing Engineer
+* CNC Programmer
+* CAM Developer
+* Tooling Coordinator
+* Manufacturing Documentation Specialist
+
+The software must be:
+
+* Modular
+* Extensible
+* Local-first
+* Human-in-the-loop
+* Auditable
+* Version controlled
+* Safe for production environments
+* Useful to both engineering and shop-floor machinists
+
+## Most Important MVP
+
+Start with an **NC Program Parser + Setup Sheet Generator + Tooling/Fixture Photo Library**.
+
+The system should ingest NC files such as:
+
+* `.nc`
+* `.tap`
+* `.eia`
+* `.txt`
+
+It should extract:
+
+* Tool numbers
+* Tool comments
+* Work offsets such as G54, G55, G56
+* Operation sequence
+* Feeds
+* Speeds
+* Drill cycles
+* Tap cycles
+* Probing cycles
+* Rotary moves
+* Estimated cycle time
+* Safety/risk flags
+* Setup notes
+
+Then generate:
+
+* Setup sheet draft
+* Tool list
+* Operator notes
+* Inspection notes
+* JSON report
+* Excel report
+* PDF setup sheet
+
+## Setup Photo Reference System
+
+The setup sheet should support photo references instead of requiring CAD-rendered setup graphics.
+
+Example:
+
+* Photo A — Raw stock
+* Photo B — Fixture assembly
+* Photo C — Vise stop location
+* Photo D — G54 location
+* Photo E — Tool layout
+* Photo F — Clamp locations
+* Photo G — Inspection points
+* Photo H — Overall setup
+
+The setup sheet may say:
+
+“Reference Photo H for fixture visual.”
+
+The photo library should store actual shop-floor photos and connect them to:
+
+* Job number
+* NC program
+* Machine
+* Fixture
+* Tooling
+* Work offset
+* Setup sheet
+* Operator notes
+
+## Tooling Numbering System
+
+Reserve **L-Series exclusively for lathe tooling** using the uploaded 5-digit lathe framework.
+
+Lathe categories:
+
+* L10000-L19999 — Rough Turning
+* L20000-L29999 — Finish Turning
+* L30000-L39999 — Boring Bars
+* L40000-L49999 — Grooving & Parting
+* L50000-L59999 — Threading
+* L60000-L69999 — Drills
+* L70000-L79999 — Reamers
+* L80000-L89999 — Taps
+* L90000-L99999 — Live Tooling / Milling / Specialty Attachments
+
+Create a separate expanded **M-Series** for milling tools.
+
+Suggested milling categories:
+
+* M10000-M19999 — Roughing End Mills
+* M20000-M29999 — Finishing End Mills
+* M30000-M39999 — Ball End Mills / 3D Profiling
+* M40000-M49999 — Chamfer / Deburr / Spotting
+* M50000-M59999 — Drilling Tools
+* M60000-M69999 — Tapping & Threading
+* M70000-M79999 — Reaming / Boring / Hole Finishing
+* M80000-M89999 — Face Milling / Shell Milling
+* M90000-M99999 — Specialty Milling Tools
+
+Expanded milling subcategories should include:
+
+* Variable flute roughers
+* Serrated roughers
+* High-efficiency milling tools
+* Aluminum roughers
+* Steel roughers
+* Stainless roughers
+* Indexable roughers
+* Long-reach roughers
+* Variable flute finishers
+* Corner-radius finishers
+* Stub ball mills
+* Long-reach ball mills
+* Tapered ball mills
+* Lollipop cutters
+* Barrel cutters
+* Circle-segment cutters
+* Chamfer mills
+* Spot drills
+* Engravers
+* Deburr tools
+* Countersinks
+* Back-chamfer tools
+* Twist drills
+* Carbide drills
+* Indexable drills
+* Coolant-through drills
+* Step drills
+* Gun drills
+* Counterbores
+* Standard taps
+* Metric taps
+* Pipe taps
+* Form taps
+* Thread mills
+* Reamers
+* Boring heads
+* Fine boring heads
+* Face mills
+* Shell mills
+* High-feed mills
+* Shoulder mills
+* Copy mills
+* Fly cutters
+* Dovetail cutters
+* T-slot cutters
+* Woodruff cutters
+* Keyseat cutters
+* Slitting saws
+* Form tools
+* Diamond tools
+* Composite tools
+* Custom tools
+
+Also create separate prefixes:
+
+* H-Series — Holders
+* F-Series — Fixtures
+* V-Series — Vises, jaws, stops, clamps
+* P-Series — Probes and inspection tools
+* R-Series — Router tools
+
+## Photo-Based Inventory Vision
+
+The software should allow users to take photos of:
+
+* Tool drawers
+* Toolboxes
+* Tool carts
+* Holders
+* Fixture carts
+* Vises
+* Soft jaws
+* Stops
+* Inspection setups
+* Full machine setups
+
+Then the system should create or update inventory records from those photos.
+
+Each inventory record should include:
+
+* Internal ID
+* Description
+* Tool family
+* Vendor
+* Manufacturer part number
+* Serial number if applicable
+* Holder ID
+* Machine compatibility
+* Location
+* Cabinet
+* Drawer
+* Quantity on hand
+* Quantity in machines
+* Minimum reorder quantity
+* Programs used on
+* Jobs used on
+* Setup photos
+* Notes
+* Revision history
+
+Actual shop-floor photos are preferred. Manufacturer catalog images may be stored as secondary references. AI-generated tool images should only be used as placeholders, never as proof of real inventory.
+
+## Manufacturing Knowledge Graph
+
+Design the system so TK-MIA can answer questions like:
+
+* What tools do I need to run this job?
+* Where is the fixture stored?
+* Which drawer has the tap?
+* What holder was used last time?
+* What photo shows the G54 location?
+* Which programs use this fixture?
+* Which tools are duplicated across the shop?
+* Which tools should be standardized?
+* What should be reordered?
+* What setup should the machinist use for this program?
+
+## Safety Requirements
+
+The system must never overwrite production files.
+
+Required behavior:
+
+* Original files stay untouched
+* AI-created files receive revision names
+* Suggested changes require engineer approval
+* Every recommendation must be auditable
+* Read-only mode must be available
+* Program posting requires approval
+* Tooling and fixture records keep revision history
+
+Example revision names:
+
+* `part123_v01`
+* `part123_v02`
+* `part123_AI_REVIEW`
+* `part123_ENGINEER_APPROVED`
+
+## Suggested Architecture
+
+Backend:
+
+* Python
+* FastAPI
+* Postgres
+* SQLAlchemy
+* Pydantic
+* Local file storage
+* ChromaDB or FAISS for searchable knowledge
+* OpenAI API for AI review and documentation assistance
+
+Frontend:
+
+* React
+* Electron desktop app
+* Shop-floor-friendly UI
+* Large buttons
+* Simple search
+* Photo upload workflow
+* Barcode / QR code support later
+
+Plugin framework:
+
+* `plugin_nc_parser`
+* `plugin_haas`
+* `plugin_router`
+* `plugin_lathe`
+* `plugin_mastercam`
+* `plugin_alphacam`
+* `plugin_inventory`
+* `plugin_setupsheet`
+* `plugin_photo_library`
+
+## Adoption Plan for Shop Floor
+
+The software must be designed so machinists see direct benefit from the extra documentation work.
+
+Do not make the shop floor feel like they are doing paperwork for engineering. The system should give them something useful back immediately.
+
+Benefits to highlight:
+
+* Less time searching for fixtures
+* Less time searching for tools
+* Fewer unclear setups
+* Easier repeat jobs
+* Faster first-piece setup
+* Better photos for G54 and fixture locations
+* Less tribal knowledge trapped in one person’s head
+* Easier training for newer machinists
+* Better night-shift and weekend support
+* Fewer interruptions asking “where is this tool?”
+* Reduced setup mistakes
+* Easier reordering of common tools
+
+Recommended rollout:
+
+1. Start with one machine or one department.
+2. Pick repeat jobs with known setup pain.
+3. Generate setup sheets from existing NC files.
+4. Add photo references A-H.
+5. Label only the most-used tools and fixtures first.
+6. Show machinists how the system saves setup/search time.
+7. Collect feedback from actual users.
+8. Improve templates before expanding.
+9. Roll out department by department.
+
+## Required Output From Codex
+
+Please create a complete software planning package including:
+
+1. Product requirements document
+2. MVP scope
+3. Technical architecture
+4. Database schema
+5. Plugin architecture
+6. NC parser design
+7. Setup sheet generator design
+8. Photo library design
+9. Tooling inventory design
+10. Fixture inventory design
+11. Milling tool numbering system
+12. Lathe tool numbering integration
+13. Shop-floor adoption strategy
+14. Safety and approval workflow
+15. Development roadmap
+16. Suggested folder structure
+17. Recommended first GitHub repository structure
+18. Example data models
+19. Example API endpoints
+20. Example UI screens
+
+Focus on creating a realistic plan that can be built incrementally, starting with NC parsing and setup sheet generation before expanding into full tooling and fixture inventory.
