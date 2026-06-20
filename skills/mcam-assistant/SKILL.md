@@ -9,6 +9,20 @@ Use this skill when the user asks to analyze Mastercam/MCAM files, NC programs, 
 
 Prefer the NC-only simple package for first deployments. It produces value from a single program file and optional plain-English notes/photos without requiring CAM extraction.
 
+## First Priority
+
+The NC parser is the first and only implementation priority until it is reliable.
+
+When working on this project:
+
+1. Start with NC parsing behavior.
+2. Improve tool, offset, operation, feed, speed, cycle, and comment extraction.
+3. Keep `manufacturing-data.json` stable and useful for downstream modules.
+4. Add or update tests with real or representative NC programs.
+5. Treat setup sheets as a way to verify parser output, not as the main feature.
+
+Do not spend implementation effort on CAM extraction, inventory integrations, report editors, CAD graphics, photo-library automation, minimum projection policies, or other future modules until the NC parser is dependable.
+
 ## Workflow
 
 1. Never overwrite the source NC program. Always create a new revision folder or output file.

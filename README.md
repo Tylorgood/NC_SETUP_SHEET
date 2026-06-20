@@ -4,6 +4,19 @@ MCAM Assistant is a local Codex plugin scaffold for CNC manufacturing workflows.
 
 The best v0.1 path is the simple NC-only setup package: parse the program, extract tools/offsets/operations, add plain-English setup notes, and organize real shop photos by reference label.
 
+## Project Priority
+
+The first and only core priority is a reliable NC parsing tool.
+
+Every development session should start with the NC parser and ask:
+
+- Can it correctly read real NC programs?
+- Can it identify tools, offsets, operations, feeds, speeds, comments, cycles, and revisions?
+- Can it produce dependable structured JSON that downstream features can trust?
+- Can the parser pass tests against known sample and golden programs?
+
+Do not prioritize CAM extraction, inventory systems, report editors, CAD renders, photo databases, tool-projection policy, or other future modules until the NC parser is solid, repeatable, and well tested. Setup sheets are useful now, but they should be treated as parser validation output first.
+
 ## What v0.1 does
 
 - Extracts tooling, holder assemblies, projection lengths, work offsets, stock, and setup notes from JSON, XML, text, ZIP, and inspectable Mastercam-adjacent files.

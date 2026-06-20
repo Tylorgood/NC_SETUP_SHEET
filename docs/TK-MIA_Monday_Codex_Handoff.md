@@ -14,6 +14,27 @@ TK-MIA is a local-first manufacturing assistant for NC program review, tooling e
 
 The current working implementation lives in this repo as the `mcam-assistant` Codex plugin and CLI.
 
+## Absolute First Priority
+
+The first and only implementation priority is the NC parsing tool.
+
+On Monday, do not start by building more integrations, UI, graphics, CAM extraction, inventory tools, report editors, or photo-database automation. Start by making the NC parser reliable and boring in the best possible way.
+
+The parser must become dependable at:
+
+- program header extraction
+- tool list extraction
+- tool-change detection
+- operation block detection
+- G54/G55/etc. work offset detection
+- feed and spindle extraction
+- drilling/tapping/canned cycle recognition
+- setup comment extraction
+- structured JSON output
+- regression tests against known-good NC programs
+
+Setup sheets should remain in scope only as a practical way to inspect and validate parser output. Future modules should wait until parser reliability is proven.
+
 It can:
 
 - Run from only an NC file.
@@ -29,9 +50,11 @@ It can:
 
 1. Clone this repo.
 2. Run the CLI against a known NC file.
-3. Confirm the setup package outputs correctly.
-4. Install the Codex plugin locally if Codex is available.
-5. Start adding real shop photos, fixture labels, and tooling projection rules.
+3. Inspect `manufacturing-data.json` for parser accuracy.
+4. Fix parser misses before improving setup-sheet appearance.
+5. Confirm the setup package outputs correctly.
+6. Install the Codex plugin locally if Codex is available.
+7. Only after parser output is trustworthy, start adding real shop photos, fixture labels, and tooling projection rules.
 
 ## Quick Test
 
