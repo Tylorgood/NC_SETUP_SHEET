@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Generated setup packages and revision output
+sample-output/
+sample-nc-only/
+tmp-*/
+debug-*/
+*_setup_package/
+revision-history.json
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Local/private shop data
+golden_programs/private/
+shop_data/private/
+*.mcam
+*.mcamx
+*.mcx
+*.mcx-*

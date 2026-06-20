@@ -1,0 +1,10 @@
+{
+  "tools": [
+    {"number": 1, "name": "1/2 carbide end mill", "diameter": 0.5, "units": "in"},
+    {"number": 2, "name": "spot drill", "diameter": 0.25, "units": "in"}
+  ],
+  "holder_assemblies": [
+    {"tool_number": 1, "holder_id": "CAT40-ER32-2.5", "components": ["CAT40 taper", "ER32 collet"], "projection_length": 2.15, "projection_units": "in"},
+    {"tool_number": 2, "holder_id": "CAT40-DA180", "projection_length": 1.75, "projection_units": "in"}
+  ]
+}

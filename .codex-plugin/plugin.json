@@ -1,0 +1,28 @@
+{
+  "name": "mcam-assistant",
+  "version": "0.1.0+codex.20260620210239",
+  "description": "Extensible manufacturing assistant for Mastercam, NC programs, setup sheets, and revisioned CNC outputs.",
+  "author": {
+    "name": "Local developer"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "MCAM Assistant",
+    "shortDescription": "Ingest Mastercam and NC files, then emit revisioned programs and setup sheets.",
+    "longDescription": "MCAM Assistant v0.1 extracts structured manufacturing data from Mastercam-adjacent files, parses NC operations, accepts plain-English engineering instructions, creates never-overwrite NC revisions with enriched comments, generates HTML/PDF/Excel setup sheets, and exposes a module registry for future CAM, machine, fixture, control, inventory, and report integrations.",
+    "developerName": "Local developer",
+    "category": "Productivity",
+    "capabilities": [
+      "File ingestion",
+      "Structured JSON",
+      "Revision history",
+      "Report generation"
+    ],
+    "defaultPrompt": [
+      "Extract tooling and setup data from this MCAM job.",
+      "Parse this NC program into operations.",
+      "Create a revisioned NC program with setup sheets."
+    ],
+    "brandColor": "#2563EB"
+  }
+}
