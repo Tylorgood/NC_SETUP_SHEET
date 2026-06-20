@@ -1,0 +1,186 @@
+This is much better than the original numbering scheme because it gives us enough structure to build a true manufacturing intelligence system.
+
+The first thing I'd do is reserve the entire L-series exclusively for lathe tooling and never mix mill tools into it. That keeps things clean forever.
+
+Proposed TK-MIA Tool Numbering Standard v1
+Lathe Tools (Your Document)
+L10000-L19999  Rough Turning
+L20000-L29999  Finish Turning
+L30000-L39999  Boring Bars
+L40000-L49999  Grooving & Parting
+L50000-L59999  Threading
+L60000-L69999  Drills
+L70000-L79999  Reamers
+L80000-L89999  Taps
+L90000-L99999  Live Tooling & Specialty
+
+Directly aligned with the document you uploaded.
+
+New Mill Tool Numbering
+
+I would create a separate machine-family prefix.
+
+M = Milling Tools
+Milling System
+M10000-M19999  Roughing End Mills
+M20000-M29999  Finishing End Mills
+M30000-M39999  Ball Mills
+M40000-M49999  Chamfer / Deburr
+M50000-M59999  Drills
+M60000-M69999  Taps
+M70000-M79999  Reamers
+M80000-M89999  Face Mills
+M90000-M99999  Specialty Cutters
+
+Examples:
+
+M10101  1/2 Rougher
+M10102  3/4 Rougher
+M20101  1/2 Finisher
+M30101  1/4 Ballmill
+M50101  #7 Drill
+M60101  1/4-20 Tap
+M80101  2" Face Mill
+Holders
+H10000-H19999 CAT40 Holders
+H20000-H29999 CAT50 Holders
+H30000-H39999 ER Collet Holders
+H40000-H49999 Shrink Fit
+H50000-H59999 Hydraulic Holders
+H60000-H69999 Boring Heads
+
+Examples:
+
+H10001 CAT40 ER32
+H10002 CAT40 ER16
+H30001 ER32 Collet Holder
+Fixtures
+F10000-F19999 Vise Fixtures
+F20000-F29999 Tombstones
+F30000-F39999 Rotary Fixtures
+F40000-F49999 Vacuum Fixtures
+F50000-F59999 Waterjet Fixtures
+F90000-F99999 Custom Fixtures
+
+Examples:
+
+F10001 VF4 Op10 Fixture
+F30001 TRT Fixture
+Vise Components
+V10000 Fixed Jaws
+V20000 Soft Jaws
+V30000 Hard Jaws
+V40000 Stops
+V50000 Clamp Kits
+Probes / Inspection
+P10000 Tool Probes
+P20000 Part Probes
+P30000 Presetters
+P40000 Gauges
+The Big Idea
+
+What you're describing is bigger than inventory.
+
+You're describing a Manufacturing Knowledge Graph.
+
+For example:
+
+Program:
+BRACKET_123_OP10.NC
+
+TK-MIA knows:
+
+Uses:
+M10101
+M20102
+M50104
+
+Fixture:
+F10012
+
+Holder:
+H10003
+H30011
+
+Photos:
+Photo A
+Photo B
+Photo H
+
+Machine:
+VF4-03
+
+Average Runtime:
+12.4 min
+
+Last Run:
+May 2026
+
+Operator Notes:
+Use stop block on left jaw.
+
+Now imagine someone asks:
+
+"What do I need to run BRACKET_123?"
+
+TK-MIA answers instantly.
+
+Or:
+
+"Where is the fixture?"
+
+Fixture:
+F10012
+
+Location:
+Cabinet F
+Shelf 3
+
+Photos:
+H
+J
+K
+
+Or:
+
+"What jobs use M10101?"
+
+TK-MIA returns every program.
+
+The Photo System Is The Secret Weapon
+
+I think this is actually the most valuable part of the entire project.
+
+Take photos of:
+
+Tool drawers
+Tool carts
+Fixtures
+Rotary setups
+Vises
+Soft jaws
+Stops
+Inspection setups
+Tool assemblies
+
+Store them as:
+
+IMG-000001
+IMG-000002
+IMG-000003
+
+Then connect them to:
+
+M10101
+F10012
+H10003
+BRACKET_123
+VF4-03
+
+Years later TK-MIA becomes the shop's institutional memory.
+
+The most important thing isn't the AI.
+
+It's that when Joe retires after 25 years, all the knowledge in Joe's head stays in the system.
+
+That's where I think TK-MIA becomes genuinely valuable for ThyssenKrupp.
