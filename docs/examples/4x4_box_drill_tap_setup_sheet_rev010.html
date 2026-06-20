@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MCAM Assistant Setup Sheet</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 32px; color: #172033; }
+    h1, h2 { margin-bottom: 8px; }
+    table { border-collapse: collapse; width: 100%; margin: 12px 0 28px; }
+    th, td { border: 1px solid #ccd3df; padding: 8px; text-align: left; }
+    th { background: #edf2f7; }
+    code { background: #edf2f7; padding: 2px 4px; }
+    pre.ascii { background: #f8fafc; border: 1px solid #ccd3df; padding: 16px; line-height: 1.25; overflow-x: auto; }
+  </style>
+</head>
+<body>
+  <h1>MCAM Assistant Setup Sheet</h1>
+  <p><strong>Revision:</strong> rev-010</p>
+  <h2>Job</h2>
+  <table><tbody>
+    <tr><th>Part</th><td>4x4_box_drill_tap</td></tr>
+    <tr><th>Machine</th><td></td></tr>
+    <tr><th>Program</th><td>4x4_box_drill_tap.nc</td></tr>
+    <tr><th>Work Offset</th><td>G54, G55</td></tr>
+    <tr><th>Fixture</th><td>KURT VISE - BACK JAW = Y0</td></tr>
+    <tr><th>Fixture Reference</th><td></td></tr>
+  </tbody></table>
+  <h2>ASCII Setup Visualization</h2>
+  <pre class="ascii">PART: 4x4_box_drill_tap
+WORK OFFSETS: G54, G55
+STOCK: 4.5 x 4.5 x 1.0 stock
+
+WHOLE JOB - SIDE BY SIDE VISE SETUP
+
+OP1 / G54 - TOP SIDE                            OP2 / G55 - Y-AXIS FLIP SIDE
+MACHINE +Y / BACK JAW                           MACHINE +Y / BACK JAW
+--------------------------------------          --------------------------------------
+| FIXED JAW / Y0 DATUM               |          | FIXED JAW / Y0 DATUM               |
+--------------------------------------          --------------------------------------
+      ^ G54 X0 Y0                                                    G55 X0 Y0 ^
+      |                                                         RIGHT-SIDE DATUM |
+X0,Y0 +--------------------------+ X+                 +--------------------------+ G55
+      | O                    O   |                    |                          | X0,Y0
+      |                          |                    |                          |
+      |       TOP SIDE UP        |                    |       PART FLIPPED       |
+      |                          |                    |   MIRROR ABOUT Y AXIS    |
+      | O                    O   |                    |    BOTTOM SIDE UP        |
+      +--------------------------+                    |                          |
+          Y- / INTO VISE                              |                          |
+--------------------------------------                +--------------------------+
+| MOVABLE JAW / CLAMP PRESSURE       |                    Y- / INTO VISE
+--------------------------------------          --------------------------------------
+OPS: face, profile, drill, tap                  | MOVABLE JAW / CLAMP PRESSURE       |
+                                                --------------------------------------
+                                                OPS: face bottom, finish side walls
+                                                RIGHT EDGE AFTER Y-FLIP = G55 PICKUP
+
+NOTES:
+- OP1 uses G54 with X0 Y0 at the back-left corner against the fixed jaw.
+- OP2 flips the part along the Y axis and uses G55 on the right side of the flipped setup.
+- Keep the fixed jaw/back jaw as Y0 reference unless the traveler says otherwise.
+- Four tapped holes are shown approximately 0.5 from part edges.
+- Verify actual stop, parallels, protrusion, and clamp clearance at machine.</pre>
+  <h2>Operations</h2>
+  <table><thead><tr><th>#</th><th>Name</th><th>Tool</th><th>WCS</th><th>RPM</th><th>Feed</th></tr></thead><tbody><tr><td>1</td><td>4X4 BOX - FACE, SIDE MILL, DRILL &amp; TAP</td><td>1</td><td>G54</td><td></td><td></td></tr><tr><td>2</td><td>OPERATION 100: FACE</td><td></td><td></td><td></td><td></td></tr><tr><td>3</td><td>FACE TOP SURFACE - REMOVE .020&quot;</td><td>1</td><td>G54</td><td>4000</td><td>5.0</td></tr><tr><td>4</td><td>OPERATION 110: PROFILE</td><td></td><td></td><td></td><td></td></tr><tr><td>5</td><td>DEPTH: Z-0.550 (LEAVE .230&quot; FOR OP 200</td><td>2</td><td>G54</td><td>3000</td><td>3.0</td></tr><tr><td>6</td><td>FINISH PASS - Z-0.550 (LEAVE .230&quot; STOCK BOTTOM</td><td></td><td></td><td></td><td>3.0</td></tr><tr><td>7</td><td>OPERATION 120: DRILL</td><td></td><td></td><td></td><td></td></tr><tr><td>8</td><td>DRILL 4 HOLES - 5/16 DRILL (.3125 DIA)</td><td>3</td><td>G54</td><td>2000</td><td>8.0</td></tr><tr><td>9</td><td>OPERATION 130: TAP</td><td>4</td><td>G54</td><td>600</td><td>0.0625</td></tr><tr><td>10</td><td>OPERATION 199: END OF SIDE 1</td><td></td><td></td><td></td><td></td></tr><tr><td>11</td><td>PART IS FLIPPED FOR OPERATION 200</td><td></td><td>G55</td><td></td><td></td></tr><tr><td>12</td><td>OPERATION 200: FLIP - FACE BOTTOM &amp; FINISH</td><td></td><td>G55</td><td></td><td></td></tr><tr><td>13</td><td>FACE BOTTOM SURFACE - REMOVE .230&quot;</td><td>1</td><td>G55</td><td>4000</td><td>5.0</td></tr><tr><td>14</td><td>FINISH SIDE WALLS FROM BOTTOM</td><td>2</td><td>G55</td><td>3000</td><td>3.0</td></tr><tr><td>15</td><td>FINISH PASS - FULL DEPTH Z-0.750</td><td></td><td></td><td></td><td>3.0</td></tr></tbody></table>
+  <h2>Tooling</h2>
+  <table><thead><tr><th>Tool</th><th>Name</th><th>Diameter</th><th>Source</th></tr></thead><tbody><tr><td>1</td><td>2.0&quot; FACE MILL - FACE TOP SURFACE</td><td>2.0</td><td>nc_program_tool_list</td></tr><tr><td>2</td><td>0.500&quot; END MILL - SIDE MILL OUTLINE</td><td>0.5</td><td>nc_program_tool_list</td></tr><tr><td>3</td><td>5/16 DRILL (.3125) - TAP DRILL FOR 3/8-16</td><td>0.3125</td><td>nc_program_tap_drill_correction</td></tr><tr><td>4</td><td>3/8&quot;-16 TAP - CUT THREADS</td><td>0.375</td><td>nc_program_tool_list</td></tr></tbody></table>
+  <h2>Setup Notes</h2>
+  <ul></ul>
+  <h2>Visual References</h2>
+  <table><thead><tr><th>Reference</th><th>Description</th><th>File</th></tr></thead><tbody><tr><td>Photo A</td><td>Raw Stock</td><td>needed</td></tr><tr><td>Photo B</td><td>Fixture Assembly</td><td>needed</td></tr><tr><td>Photo C</td><td>Vise Stop Location</td><td>needed</td></tr><tr><td>Photo D</td><td>G54 Location</td><td>needed</td></tr><tr><td>Photo E</td><td>Tool Layout</td><td>needed</td></tr><tr><td>Photo F</td><td>Critical Clamp Locations</td><td>needed</td></tr><tr><td>Photo G</td><td>First Article Inspection Points</td><td>needed</td></tr><tr><td>Photo H</td><td>Overall Setup</td><td>needed</td></tr></tbody></table>
+  <h2>Instructions</h2>
+  <pre>NC-only setup sheet generator test. T3 should be a .3125 drill for 3/8-16 tapping. Preserve the original program and create a new revision. Show OP1 and OP2 ASCII setup views side by side. OP2 flips along the Y axis with G55 on the right side.</pre>
+</body>
+</html>
