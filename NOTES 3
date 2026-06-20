@@ -1,0 +1,386 @@
+I’ll turn this into a clean handoff package: a ready-to-send Codex prompt plus a small notes section for your Monday workstation setup. I’ll also inspect the uploaded reference programs so the handoff names them correctly instead of staying generic.
+
+Thought for 28s
+
+Done — I made you a clean Monday handoff file:
+
+TK-MIA_Monday_Codex_Handoff.md
+# TK-MIA Monday Codex Handoff
+
+## Purpose
+Use this handoff to have Workstation Codex search the Dell TeamUp project directory, locate a good production NC file, and prepare it as the first real-world test case for the TK-MIA NC Parser and setup sheet generator.
+
+## Operating Mode
+- Read-only.
+- Do not modify, rename, move, delete, or overwrite any files.
+- Do not post-process CAM files yet.
+- Do not generate machine-ready edits yet.
+- Produce a markdown report only.
+
+## Context
+Project: **TK-MIA — ThyssenKrupp Manufacturing Intelligence Agent**
+
+Goal: Build an extensible local-first AI manufacturing assistant that can review NC programs, identify tooling/work offsets, extract setup information, and eventually create machinist-facing setup sheets with reference visuals.
+
+The attached reference program set contains basic Haas VF-1 template programs for future parser development:
+
+- `01_facing.nc` — facing operation
+- `02_spot_drilling.nc` — spot drilling
+- `03_drilling.nc` — G81 drilling
+- `04_peck_drilling.nc` — G83 peck drilling
+- `05_reaming.nc` — reaming
+- `06_tapping.nc` — G84 rigid tapping
+- `07_bolt_circle_manual.nc` — bolt circle using explicit XY points
+- `07_bolt_circle_polar.nc` — bolt circle using G16/G15 polar mode
+- `08_rect_pocket.nc` — rectangular pocketing with cutter comp
+- `09_circular_pocket.nc` — circular pocket with helical entry
+- `10_outside_profile.nc` — outside profiling with cutter comp
+
+These are reference templates only. The main task is to find a representative real NC file inside the Dell TeamUp directory.
+
+---
+
+# Prompt for Workstation Codex
+
+Search the Dell TeamUp project directory and find the best NC program to use as a prototype file for TK-MIA NC Parser development and setup sheet generation.
+
+## Hard Rules
+1. Operate in read-only mode.
+2. Recursively scan all folders and subfolders.
+3. Do not modify any files.
+4. Do not rename, move, delete, or overwrite anything.
+5. Do not attempt to repost, regenerate, or change NC output.
+6. Return findings only in a markdown report.
+
+## File Types to Search
+Identify candidate CNC program files, including but not limited to:
+
+- `.nc`
+- `.tap`
+- `.eia`
+- `.min`
+- `.mpf`
+- `.spf`
+- `.txt` files that contain NC/G-code
+- machine-specific NC program extensions
+
+## Candidate Information to Extract
+For each promising NC file, report:
+
+- Full file path
+- File name
+- File extension
+- File size
+- Last modified date
+- Program number, such as `O####`, if present
+- Machine/control type if detectable
+- First 20 lines of the program
+- Whether it appears to be production, test, prove-out, setup, or template code
+
+## Selection Criteria
+Select the best real-world candidate based on these traits:
+
+- Complete machining sequence
+- Multiple tool changes
+- Clear tool comments
+- Work offset usage, especially `G54` through `G59`
+- Tool length offset usage, such as `G43 H##`
+- Cutter compensation usage, such as `G41`, `G42`, and `D##`
+- Canned cycles such as `G81`, `G82`, `G83`, `G84`, etc.
+- Useful setup comments
+- Fixture, vise, pallet, tombstone, or operation references
+- Meaningful program length
+- Clear safe startup and shutdown blocks
+- Prefer a finished production program over a test/demo file
+
+## Required Final Report Format
+
+# Recommended NC File
+- Path:
+- File name:
+- File size:
+- Last modified:
+- Program number:
+- Detected machine/control:
+- Reason selected:
+
+# Program Overview
+Summarize what the program appears to do.
+
+# Detected Tools
+Create a table with:
+
+| Tool | Offset | Description | Spindle | Feed | Notes |
+|---|---:|---|---:|---:|---|
+
+Include tool numbers such as `T01`, length offsets such as `H01`, and diameter offsets such as `D01` when present.
+
+# Detected Work Offsets
+List all work offsets found, including:
+
+- `G54`
+- `G55`
+- `G56`
+- `G57`
+- `G58`
+- `G59`
+- Any extended offsets if present
+
+For each offset, include where it appears and what it likely represents if comments explain it.
+
+# Setup Information
+Extract any comments or clues related to:
+
+- Fixture
+- Vise
+- Jaws
+- Pallet
+- Tombstone
+- Clamp orientation
+- Stock size
+- Part zero location
+- Operation number
+- Setup number
+- Reference photos or visuals
+- Machinist notes
+
+# Operation Breakdown
+Break the program into likely operations, such as:
+
+- Facing
+- Spot drilling
+- Drilling
+- Peck drilling
+- Reaming
+- Tapping
+- Pocketing
+- Contouring
+- Profiling
+- Chamfering
+- Deburring
+- Other detected operations
+
+For each operation, include associated tools, key G-codes, and approximate line ranges.
+
+# Visual Setup Sheet Readiness
+Evaluate whether this NC file has enough information to support a setup sheet.
+
+Include:
+
+- Can the parser identify tools? Yes/No/Partial
+- Can the parser identify work offset? Yes/No/Partial
+- Can the parser identify part zero? Yes/No/Partial
+- Can the parser identify fixture information? Yes/No/Partial
+- Should the setup sheet include a placeholder such as `Reference Photo A`, `Reference Photo B`, etc.?
+
+# Parser Development Notes
+Compare the recommended production file against the attached Haas VF-1 reference templates:
+
+- Facing reference: `01_facing.nc`
+- Spot drilling reference: `02_spot_drilling.nc`
+- Drilling reference: `03_drilling.nc`
+- Peck drilling reference: `04_peck_drilling.nc`
+- Reaming reference: `05_reaming.nc`
+- Tapping reference: `06_tapping.nc`
+- Bolt circle manual reference: `07_bolt_circle_manual.nc`
+- Bolt circle polar reference: `07_bolt_circle_polar.nc`
+- Rectangular pocket reference: `08_rect_pocket.nc`
+- Circular pocket reference: `09_circular_pocket.nc`
+- Outside profile reference: `10_outside_profile.nc`
+
+Explain which reference templates are most similar to the selected real program.
+
+# Next Recommended Development Step
+Recommend the first parser feature to build from this file. Prioritize:
+
+1. Program header extraction
+2. Tool list extraction
+3. Work offset extraction
+4. Operation block detection
+5. Setup sheet draft generation
+6. Fixture/photo placeholder mapping
+
+## Output Deliverable
+Create one markdown file named:
+
+`TK-MIA_NC_File_Discovery_Report.md`
+
+Do not create or change any other files.
+
+---
+
+# What I Need Available on the Workstation
+For a seamless Monday run, make sure Codex has access to:
+
+1. The Dell TeamUp directory root path.
+2. The uploaded reference archive or extracted reference files.
+3. Permission to recursively read files in Dell TeamUp.
+4. A known output location for `TK-MIA_NC_File_Discovery_Report.md`.
+5. Any naming convention ThyssenKrupp uses for production, prove-out, setup, or archived NC programs.
+6. Any machine/control names expected in the directory, such as Haas, Fanuc, Siemens, Okuma, Mazak, Heidenhain, or others.
+7. Any folder names that should be ignored, such as archive, backup, old, test, or simulation folders.
+
+## Optional but Helpful
+- A sample setup sheet, if one already exists.
+- A photo reference folder, if machinist setup photos already exist.
+- A standard tool list or crib list.
+- Machine list with post/control type.
+- Examples of good and bad NC files.
+- Any internal naming convention for fixture photos, such as Photo A-H.
+
+
+
+I also checked your uploaded Haas VF-1 reference archive. It contains 11 basic NC templates: facing, drilling, tapping, bolt circle, pockets, and outside profile.
+
+For the seamless handoff, the main thing I’d still want is the exact Dell TeamUp root folder path on the workstation. Everything else is optional.
+
+it wont have acess to that directory... should we save everything to github so i can get it off github when i get to work?
+
+Yes. For what you're building, GitHub is probably the best approach.
+
+Right now you have three separate things:
+
+TK-MIA Design Documents
+Vision
+Architecture
+Feature roadmap
+Parser requirements
+Setup sheet requirements
+Reference NC Programs
+Your Haas VF-1 templates
+Future Dell TeamUp examples
+Sample jobs for testing
+Codex/OpenCode Workspace
+Prompts
+Tasks
+Generated code
+Documentation
+
+I'd create a GitHub repository now and treat it as the single source of truth.
+
+Example:
+
+TK-MIA/
+
+├── docs/
+│   ├── vision.md
+│   ├── architecture.md
+│   ├── roadmap.md
+│   └── setup_sheet_spec.md
+│
+├── reference_programs/
+│   ├── haas_vf1/
+│   ├── fanuc/
+│   ├── okuma/
+│   └── examples/
+│
+├── parser/
+│   ├── nc_parser.py
+│   ├── tests/
+│   └── schemas/
+│
+├── setup_sheet_generator/
+│
+├── tooling_database/
+│
+├── fixture_database/
+│
+└── prompts/
+    ├── codex_tasks/
+    └── manufacturing_prompts/
+
+Then Monday becomes:
+
+git clone github.com/yourrepo/TK-MIA
+
+and your workstation immediately has:
+
+The handoff document
+Reference programs
+Design requirements
+Previous work
+Parser test files
+
+No dependency on ChatGPT memory.
+No dependency on TeamUp access.
+No dependency on finding old conversations.
+
+For TK-MIA specifically, I'd actually start storing these documents immediately:
+
+01_Vision.md
+
+What TK-MIA is supposed to become.
+
+02_Architecture.md
+
+Modules:
+
+NC Parser
+Tool Database
+Fixture Database
+Setup Sheet Generator
+CAM Reviewer
+Process Standardizer
+03_Setup_Sheet_Spec.md
+
+Define exactly what every setup sheet contains.
+
+Example:
+
+Operation
+Machine
+Fixture
+Work Offset
+Tools
+Estimated Cycle Time
+Setup Notes
+Reference Photos
+Revision
+04_NC_Parser_Requirements.md
+
+What the parser must detect:
+
+Tools
+Tool Changes
+Work Offsets
+Feeds
+Speeds
+Coolant
+Spindle Commands
+Drilling Cycles
+Tapping Cycles
+Pocketing
+Contouring
+Subprograms
+05_Reference_Program_Library.md
+
+Catalog every NC file.
+
+File
+Control
+Machine
+Operation Type
+Notes
+
+This becomes the training and validation set for the parser.
+
+One thing I'd add before Monday:
+
+Create a folder called:
+
+golden_programs/
+
+Put 20–50 proven production NC files in there from different operation types:
+
+Face
+Drill
+Tap
+Pocket
+Profile
+Multi-op
+4th axis
+Probe cycles
+
+Those become the parser's regression test suite. Every time Codex changes the parser, it must successfully analyze every file in golden_programs before the change is accepted.
+
+That's how you keep TK-MIA from breaking as it grows. The Haas VF-1 templates you uploaded are actually a great start for that library.
