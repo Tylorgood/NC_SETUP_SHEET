@@ -40,6 +40,8 @@ A browser-friendly plan for sharing the vision with machinists, programmers, eng
 - Applies simple shop-floor corrections for known tap-drill cases, such as 5/16 `.3125` for `3/8-16`.
 - Adds tool tracking fields for internal tool ID, serial number, holder ID, tool location, holder location, replacement location, photos, and stick-out/projection review.
 - Adds required setup item placeholders for vise jaws, stops, parallels, and storage locations when a vise setup is detected.
+- Uses a location serial format for shop storage: `AREA-CAB##-D##-R##-C##-B##`, where `R` is router, `L` is lathe, `M` is mill, and `C` is crib.
+- Adds ASCII tool drawer and CAT40 holder assembly sketches so expected storage and tool build can be reviewed without photos.
 - Accepts plain-English engineering instructions and maps them into structured constraints, notes, actions, and revision intent.
 - Creates a new revision every run. Original NC programs are never overwritten.
 - Generates `manufacturing-data.json`, updated NC output, revision history, and setup sheets in HTML, PDF, and XLSX.

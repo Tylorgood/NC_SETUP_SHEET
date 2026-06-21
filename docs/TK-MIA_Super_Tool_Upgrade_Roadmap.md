@@ -137,6 +137,37 @@ Additional prefixes:
 - `P-Series` - Probes and inspection tools
 - `R-Series` - Router tools
 
+## Storage Location Serial System
+
+Use a simple location code that works for drawers, cabinets, carts, and crib storage:
+
+```text
+AREA-CAB##-D##-R##-C##-B##
+```
+
+Area prefixes:
+
+- `R` - Router area
+- `L` - Lathe area
+- `M` - Mill area
+- `C` - Tool crib / shared storage
+
+Code fields:
+
+- `CAB##` - Cabinet number
+- `D##` - Drawer number
+- `R##` - Row inside drawer
+- `C##` - Column inside drawer
+- `B##` - Bin, cup, pocket, or slot
+
+Example:
+
+```text
+C-CAB02-D04-R01-C03-B02
+```
+
+This means Tool Crib, cabinet 2, drawer 4, row 1, column 3, bin 2.
+
 ## Photo-Based Inventory Vision
 
 Later, the software should help users document:

@@ -182,9 +182,9 @@ def _add_tool_tracking_placeholders(tools: list[dict], operations: list, program
         tool.setdefault("vendor", "VENDOR NEEDED")
         tool.setdefault("vendor_part_number", "PART NUMBER NEEDED")
         tool.setdefault("holder_id", f"H{10000 + int(number):05d}")
-        tool.setdefault("holder_location", "HOLDER LOCATION NEEDED")
-        tool.setdefault("tool_location", "TOOL LOCATION NEEDED")
-        tool.setdefault("replacement_location", "REPLACEMENT LOCATION NEEDED")
+        tool.setdefault("holder_location", _location_placeholder("C", "holder"))
+        tool.setdefault("tool_location", _location_placeholder("C", "tool"))
+        tool.setdefault("replacement_location", _location_placeholder("C", "replacement"))
         tool.setdefault("photo", "PHOTO NEEDED")
         tool.setdefault("catalog_image", "CATALOG IMAGE NEEDED")
         tool.setdefault("programs_used", [program_name] if number in op_tools else [])
@@ -194,6 +194,10 @@ def _add_tool_tracking_placeholders(tools: list[dict], operations: list, program
         tool.setdefault("stickout_actual_in", "MEASURE AT SETUP")
         tool.setdefault("minimum_projection_in", min_projection)
         tool.setdefault("projection_status", "REVIEW - ACTUAL STICKOUT NEEDED")
+
+
+def _location_placeholder(area: str, label: str) -> str:
+    return f"{area}-CAB??-D??-R??-C??-B?? ({label.upper()} LOCATION NEEDED)"
 
 
 def _tool_family(name: str) -> str:
@@ -292,6 +296,27 @@ def _build_job_metadata(nc_path: Path, operations: list, supplied: dict, simple_
         "setup_notes": supplied.get("setup_notes", []),
         "setup_context": _extract_setup_context(nc_text),
         "required_items": _required_setup_items(fixture),
+        "location_serial_system": _location_serial_system(),
+    }
+
+
+def _location_serial_system() -> dict:
+    return {
+        "format": "AREA-CAB##-D##-R##-C##-B##",
+        "example": "C-CAB02-D04-R01-C03-B02",
+        "areas": [
+            {"prefix": "R", "name": "Router area"},
+            {"prefix": "L", "name": "Lathe area"},
+            {"prefix": "M", "name": "Mill area"},
+            {"prefix": "C", "name": "Tool crib / shared storage"},
+        ],
+        "fields": [
+            {"code": "CAB##", "name": "Cabinet number"},
+            {"code": "D##", "name": "Drawer number"},
+            {"code": "R##", "name": "Row inside drawer"},
+            {"code": "C##", "name": "Column inside drawer"},
+            {"code": "B##", "name": "Bin, cup, slot, or pocket"},
+        ],
     }
 
 
@@ -303,21 +328,21 @@ def _required_setup_items(fixture: str) -> list[dict]:
                 {
                     "item": "Kurt vise jaws",
                     "asset_id": "V-SERIAL NEEDED",
-                    "location": "JAW STORAGE LOCATION NEEDED",
+                    "location": _location_placeholder("M", "jaw storage"),
                     "photo": "PHOTO NEEDED",
                     "notes": "Confirm correct jaws, stop, and parallels before setup.",
                 },
                 {
                     "item": "Vise stop",
                     "asset_id": "V-STOP ID NEEDED",
-                    "location": "STOP STORAGE LOCATION NEEDED",
+                    "location": _location_placeholder("M", "stop storage"),
                     "photo": "PHOTO NEEDED",
                     "notes": "Verify stop location matches G54/G55 sketch.",
                 },
                 {
                     "item": "Parallels / support",
                     "asset_id": "SUPPORT ID NEEDED",
-                    "location": "PARALLEL STORAGE LOCATION NEEDED",
+                    "location": _location_placeholder("M", "parallel storage"),
                     "photo": "PHOTO NEEDED",
                     "notes": "Verify stock protrusion and clamp clearance.",
                 },

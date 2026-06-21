@@ -63,6 +63,10 @@ def test_nc_only_simple_package() -> None:
     assert "SETUP SKETCH" in html or "WHOLE JOB - SIDE BY SIDE VISE SETUP" in html
     assert "Tool Tracking, Holders, Locations, and Stick-Out" in html
     assert "OP1 / G54 - Top Side" in html
+    assert "Storage Location Serial Number System" in html
+    assert "AREA-CAB##-D##-R##-C##-B##" in html
+    assert "ASCII Tool Drawer Map" in html
+    assert "ASCII CAT40 Holder Assembly Guide" in html
 
 
 def test_3_8_16_tap_drill_correction() -> None:
@@ -107,4 +111,4 @@ def test_3_8_16_tap_drill_correction() -> None:
     assert "RIGHT EDGE AFTER Y-FLIP = G55 PICKUP" in html
     assert "MIRROR ABOUT Y AXIS" in html
     assert "Kurt vise jaws" in html
-    assert "JAW STORAGE LOCATION NEEDED" in html
+    assert "M-CAB??-D??-R??-C??-B??" in html

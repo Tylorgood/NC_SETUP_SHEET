@@ -23,6 +23,9 @@ class SetupSheetReportGenerator:
     def _html(self, data: dict[str, Any]) -> str:
         job = data.get("job", {})
         ascii_visual = _ascii_setup_visual(data)
+        location_system = _location_system_html(job.get("location_serial_system", {}))
+        tool_drawer_visual = _ascii_tool_drawer_visual(data)
+        holder_build_visual = _ascii_holder_build_visual(data)
         operation_sections = _operation_sections_html(data.get("operations", []))
         tool_rows = []
         for tool in data.get("tooling", {}).get("tools", []):
@@ -101,6 +104,12 @@ class SetupSheetReportGenerator:
   </tbody></table>
   <h2>ASCII Setup Visualization</h2>
   <pre class="ascii">{html.escape(ascii_visual)}</pre>
+  <h2>Storage Location Serial Number System</h2>
+  {location_system}
+  <h2>ASCII Tool Drawer Map</h2>
+  <pre class="ascii">{html.escape(tool_drawer_visual)}</pre>
+  <h2>ASCII CAT40 Holder Assembly Guide</h2>
+  <pre class="ascii">{html.escape(holder_build_visual)}</pre>
   <h2>Operations</h2>
   {operation_sections}
   <h2>Tool Tracking, Holders, Locations, and Stick-Out</h2>
@@ -142,6 +151,8 @@ class SetupSheetReportGenerator:
     def _xlsx(self, path: Path, data: dict[str, Any]) -> None:
         job = data.get("job", {})
         ascii_visual = _ascii_setup_visual(data)
+        tool_drawer_visual = _ascii_tool_drawer_visual(data)
+        holder_build_visual = _ascii_holder_build_visual(data)
         operations = data.get("operations", [])
         tools = data.get("tooling", {}).get("tools", [])
         photos = job.get("visual_references", [])
@@ -154,6 +165,10 @@ class SetupSheetReportGenerator:
             ["Fixture", job.get("fixture")],
             ["Fixture Reference", job.get("fixture_reference")],
             ["ASCII Setup Visualization", ascii_visual],
+            ["Location Code Format", job.get("location_serial_system", {}).get("format")],
+            ["Location Code Example", job.get("location_serial_system", {}).get("example")],
+            ["ASCII Tool Drawer Map", tool_drawer_visual],
+            ["ASCII CAT40 Holder Assembly", holder_build_visual],
         ]
         with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as zf:
             zf.writestr("[Content_Types].xml", CONTENT_TYPES)
@@ -211,6 +226,33 @@ def _operation_sections_html(operations: list[dict[str, Any]]) -> str:
             f'<table><thead><tr><th>#</th><th>Name</th><th>Tool</th><th>WCS</th><th>RPM</th><th>Feed</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>'
         )
     return "".join(blocks)
+
+
+def _location_system_html(system: dict[str, Any]) -> str:
+    if not system:
+        return "<p>No location system defined.</p>"
+    area_rows = []
+    for area in system.get("areas", []):
+        area_rows.append(
+            "<tr>"
+            f"<td>{html.escape(str(area.get('prefix', '')))}</td>"
+            f"<td>{html.escape(str(area.get('name', '')))}</td>"
+            "</tr>"
+        )
+    field_rows = []
+    for field in system.get("fields", []):
+        field_rows.append(
+            "<tr>"
+            f"<td>{html.escape(str(field.get('code', '')))}</td>"
+            f"<td>{html.escape(str(field.get('name', '')))}</td>"
+            "</tr>"
+        )
+    return (
+        f"<p><strong>Format:</strong> <code>{html.escape(str(system.get('format', '')))}</code> "
+        f"<strong>Example:</strong> <code>{html.escape(str(system.get('example', '')))}</code></p>"
+        f"<table><thead><tr><th>Area Prefix</th><th>Meaning</th></tr></thead><tbody>{''.join(area_rows)}</tbody></table>"
+        f"<table><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody>{''.join(field_rows)}</tbody></table>"
+    )
 
 
 def _operation_section_name(op: dict[str, Any]) -> str:
@@ -272,6 +314,80 @@ def _ascii_setup_visual(data: dict[str, Any]) -> str:
             "- Add fixture details to improve this ASCII visualization.",
         ]
     )
+
+
+def _ascii_tool_drawer_visual(data: dict[str, Any]) -> str:
+    tools = data.get("tooling", {}).get("tools", [])
+    drawer_cells = []
+    for index in range(8):
+        tool = tools[index] if index < len(tools) else None
+        if tool:
+            label = f"T{tool.get('number')} {tool.get('internal_id', '')}"
+        else:
+            label = "OPEN"
+        drawer_cells.append(label[:16])
+    return "\n".join(
+        [
+            "TOOL CRIB DRAWER EXAMPLE - USE LOCATION CODE ON EACH BIN",
+            "LOCATION FORMAT: AREA-CAB##-D##-R##-C##-B##",
+            "AREAS: R=ROUTER  L=LATHE  M=MILL  C=CRIB",
+            "",
+            "Example drawer: C-CAB01-D01",
+            "",
+            "        COLUMN 01          COLUMN 02          COLUMN 03          COLUMN 04",
+            "      +----------------+----------------+----------------+----------------+",
+            f"R01   | {drawer_cells[0]:<14} | {drawer_cells[1]:<14} | {drawer_cells[2]:<14} | {drawer_cells[3]:<14} |",
+            "      +----------------+----------------+----------------+----------------+",
+            f"R02   | {drawer_cells[4]:<14} | {drawer_cells[5]:<14} | {drawer_cells[6]:<14} | {drawer_cells[7]:<14} |",
+            "      +----------------+----------------+----------------+----------------+",
+            "        B01              B02              B03              B04",
+            "",
+            "LABEL EACH BIN LIKE: C-CAB01-D01-R01-C03-B03",
+            "WRITE THE SAME CODE ON THE SETUP SHEET AND TOOL RECORD.",
+        ]
+    )
+
+
+def _ascii_holder_build_visual(data: dict[str, Any]) -> str:
+    tools = data.get("tooling", {}).get("tools", [])
+    lines = [
+        "STANDARD CAT40 TOOL ASSEMBLY EXPECTATION",
+        "",
+        "        MACHINE SPINDLE",
+        "             ||",
+        "        _____||_____",
+        "       /            \\",
+        "      /   CAT40      \\        Holder ID: H#####",
+        "     /    HOLDER      \\       Holder serial/location required",
+        "     ------------------",
+        "            ||",
+        "            ||  COLLET / END MILL HOLDER / FACE MILL ARBOR",
+        "            ||",
+        "        [ TOOL BODY ]          Tool asset ID: M#####",
+        "            ||                 Tool serial required",
+        "            ||<---- STICK-OUT / PROJECTION ---->",
+        "            ||                 Measure actual stick-out at setup",
+        "            \\/",
+        "        CUTTING END",
+        "",
+        "TOOLS FOR THIS JOB:",
+    ]
+    for tool in tools:
+        lines.append(
+            f"- T{tool.get('number')}: {tool.get('internal_id')} in {tool.get('holder_id')} | "
+            f"actual {tool.get('stickout_actual_in')} | min {tool.get('minimum_projection_in')}"
+        )
+    lines.extend(
+        [
+            "",
+            "CHECKS:",
+            "- Verify holder matches setup sheet.",
+            "- Verify pull stud, collet, nut, and cutter are correct.",
+            "- Record actual stick-out before first article.",
+            "- If actual stick-out is below minimum projection, stop and review.",
+        ]
+    )
+    return "\n".join(lines)
 
 
 def _find_comment_value(comments: str, label: str) -> str | None:
