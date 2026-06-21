@@ -28,6 +28,8 @@ The larger TK-MIA platform vision is captured in [docs/TK-MIA_Super_Tool_Upgrade
 
 A browser-friendly plan for sharing the vision with machinists, programmers, engineering, and leadership is available at [docs/TK-MIA_Project_Plan.html](docs/TK-MIA_Project_Plan.html).
 
+The proposed SharePoint folder map for using TK-MIA as a shop librarian is available at [docs/TK-MIA_SharePoint_Shop_Librarian_File_Map.md](docs/TK-MIA_SharePoint_Shop_Librarian_File_Map.md).
+
 ## What v0.1 does
 
 - Extracts tooling, holder assemblies, projection lengths, work offsets, stock, and setup notes from JSON, XML, text, ZIP, and inspectable Mastercam-adjacent files.
