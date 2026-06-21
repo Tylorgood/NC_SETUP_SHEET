@@ -161,6 +161,10 @@ Inventory records should include:
 - manufacturer part number
 - serial number if applicable
 - holder ID
+- holder storage location
+- actual tool stick-out
+- minimum required projection
+- projection pass/fail or review status
 - machine compatibility
 - location
 - cabinet
@@ -171,8 +175,11 @@ Inventory records should include:
 - programs used on
 - jobs used on
 - setup photos
+- catalog image
+- replacement source or reorder location
 - notes
 - revision history
+- jaws, stops, clamps, and fixture storage links when the tool is tied to a setup
 
 ## Manufacturing Knowledge Graph
 

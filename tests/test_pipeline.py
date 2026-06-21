@@ -53,12 +53,16 @@ def test_nc_only_simple_package() -> None:
     assert payload["job"]["package_mode"] == "nc-only-simple"
     assert payload["job"]["part"] == "123456-A"
     assert payload["tooling"]["tools"][0]["source"] == "nc_program"
+    assert "internal_id" in payload["tooling"]["tools"][0]
+    assert "minimum_projection_in" in payload["tooling"]["tools"][0]
     assert len(payload["job"]["visual_references"]) == 8
     html = Path(result["artifacts"]["html"]).read_text(encoding="utf-8")
     assert "Photo H" in html
     assert "<strong>Revision:</strong> rev-001" in html
     assert "ASCII Setup Visualization" in html
     assert "SETUP SKETCH" in html or "WHOLE JOB - SIDE BY SIDE VISE SETUP" in html
+    assert "Tool Tracking, Holders, Locations, and Stick-Out" in html
+    assert "OP1 / G54 - Top Side" in html
 
 
 def test_3_8_16_tap_drill_correction() -> None:
@@ -91,6 +95,9 @@ def test_3_8_16_tap_drill_correction() -> None:
     t3 = next(tool for tool in payload["tooling"]["tools"] if tool["number"] == 3)
     assert t3["diameter"] == 0.3125
     assert "3/8-16" in t3["name"]
+    assert t3["minimum_projection_in"] == 1.5
+    assert t3["stickout_actual_in"] == "MEASURE AT SETUP"
+    assert "required_items" in payload["job"]
     html = Path(result["artifacts"]["html"]).read_text(encoding="utf-8")
     assert "WHOLE JOB - SIDE BY SIDE VISE SETUP" in html
     assert "OP1 / G54 - TOP SIDE" in html
@@ -99,3 +106,5 @@ def test_3_8_16_tap_drill_correction() -> None:
     assert "RIGHT-SIDE DATUM" in html
     assert "RIGHT EDGE AFTER Y-FLIP = G55 PICKUP" in html
     assert "MIRROR ABOUT Y AXIS" in html
+    assert "Kurt vise jaws" in html
+    assert "JAW STORAGE LOCATION NEEDED" in html

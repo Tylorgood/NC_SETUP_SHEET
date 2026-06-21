@@ -38,6 +38,8 @@ A browser-friendly plan for sharing the vision with machinists, programmers, eng
 - Adds ASCII setup visualizations for fixture/part orientation, including vise-style sketches when NC comments mention a vise.
 - Shows OP1 and OP2 side by side for flip jobs, including Y-axis flip/G55 right-side datum callouts when applicable.
 - Applies simple shop-floor corrections for known tap-drill cases, such as 5/16 `.3125` for `3/8-16`.
+- Adds tool tracking fields for internal tool ID, serial number, holder ID, tool location, holder location, replacement location, photos, and stick-out/projection review.
+- Adds required setup item placeholders for vise jaws, stops, parallels, and storage locations when a vise setup is detected.
 - Accepts plain-English engineering instructions and maps them into structured constraints, notes, actions, and revision intent.
 - Creates a new revision every run. Original NC programs are never overwritten.
 - Generates `manufacturing-data.json`, updated NC output, revision history, and setup sheets in HTML, PDF, and XLSX.

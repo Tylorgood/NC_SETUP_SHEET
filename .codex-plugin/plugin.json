@@ -1,6 +1,6 @@
 {
   "name": "mcam-assistant",
-  "version": "0.1.0+codex.20260620210239",
+  "version": "0.1.0+codex.20260621210541",
   "description": "Extensible manufacturing assistant for Mastercam, NC programs, setup sheets, and revisioned CNC outputs.",
   "author": {
     "name": "Local developer"

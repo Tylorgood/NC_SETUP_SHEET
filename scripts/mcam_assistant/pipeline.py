@@ -47,6 +47,7 @@ class ManufacturingPipeline:
             tooling["tools"] = [tool.__dict__ for tool in _derive_tools_from_nc_operations(operations)]
         tooling_warnings = tooling.get("warnings", [])
         _apply_tap_drill_corrections(tooling["tools"], operations, nc_text, tooling_warnings)
+        _add_tool_tracking_placeholders(tooling["tools"], operations, nc_path.stem)
         parsed_instructions = instruction_parser.parse(instructions)
         revision_id, revision_dir = revision_store.next_revision_dir(output_root)
         revised_nc = revision_dir / f"{nc_path.stem}.{revision_id}{nc_path.suffix or '.nc'}"
@@ -169,6 +170,65 @@ def _apply_tap_drill_corrections(tools: list[dict], operations: list, nc_text: s
     )
 
 
+def _add_tool_tracking_placeholders(tools: list[dict], operations: list, program_name: str) -> None:
+    op_tools = {op.tool_number for op in operations if op.tool_number is not None}
+    for tool in tools:
+        number = tool.get("number")
+        if number is None:
+            continue
+        family = _tool_family(str(tool.get("name") or ""))
+        tool.setdefault("internal_id", _tool_internal_id(number, family))
+        tool.setdefault("serial_number", "TOOL SERIAL NEEDED")
+        tool.setdefault("vendor", "VENDOR NEEDED")
+        tool.setdefault("vendor_part_number", "PART NUMBER NEEDED")
+        tool.setdefault("holder_id", f"H{10000 + int(number):05d}")
+        tool.setdefault("holder_location", "HOLDER LOCATION NEEDED")
+        tool.setdefault("tool_location", "TOOL LOCATION NEEDED")
+        tool.setdefault("replacement_location", "REPLACEMENT LOCATION NEEDED")
+        tool.setdefault("photo", "PHOTO NEEDED")
+        tool.setdefault("catalog_image", "CATALOG IMAGE NEEDED")
+        tool.setdefault("programs_used", [program_name] if number in op_tools else [])
+        tool.setdefault("machines", ["MACHINE NEEDED"])
+        min_projection = _minimum_projection_for_family(family)
+        tool.setdefault("tool_family", family)
+        tool.setdefault("stickout_actual_in", "MEASURE AT SETUP")
+        tool.setdefault("minimum_projection_in", min_projection)
+        tool.setdefault("projection_status", "REVIEW - ACTUAL STICKOUT NEEDED")
+
+
+def _tool_family(name: str) -> str:
+    upper = name.upper()
+    if "FACE MILL" in upper:
+        return "face_mill"
+    if "END MILL" in upper:
+        return "end_mill"
+    if "DRILL" in upper:
+        return "drill"
+    if "TAP" in upper:
+        return "tap"
+    return "unknown"
+
+
+def _tool_internal_id(number: int, family: str) -> str:
+    family_base = {
+        "end_mill": 20000,
+        "drill": 50000,
+        "tap": 60000,
+        "face_mill": 80000,
+    }.get(family, 90000)
+    return f"M{family_base + int(number):05d}"
+
+
+def _minimum_projection_for_family(family: str) -> float | str:
+    rules = {
+        "face_mill": 1.25,
+        "end_mill": 1.75,
+        "drill": 1.5,
+        "tap": 1.25,
+    }
+    return rules.get(family, "RULE NEEDED")
+
+
 def _correct_3_8_16_drill_text(value: str) -> str:
     import re
 
@@ -231,7 +291,39 @@ def _build_job_metadata(nc_path: Path, operations: list, supplied: dict, simple_
         "estimated_cycle_time": supplied.get("cycle_time") or "",
         "setup_notes": supplied.get("setup_notes", []),
         "setup_context": _extract_setup_context(nc_text),
+        "required_items": _required_setup_items(fixture),
     }
+
+
+def _required_setup_items(fixture: str) -> list[dict]:
+    items = []
+    if "VISE" in fixture.upper() or "VICE" in fixture.upper():
+        items.extend(
+            [
+                {
+                    "item": "Kurt vise jaws",
+                    "asset_id": "V-SERIAL NEEDED",
+                    "location": "JAW STORAGE LOCATION NEEDED",
+                    "photo": "PHOTO NEEDED",
+                    "notes": "Confirm correct jaws, stop, and parallels before setup.",
+                },
+                {
+                    "item": "Vise stop",
+                    "asset_id": "V-STOP ID NEEDED",
+                    "location": "STOP STORAGE LOCATION NEEDED",
+                    "photo": "PHOTO NEEDED",
+                    "notes": "Verify stop location matches G54/G55 sketch.",
+                },
+                {
+                    "item": "Parallels / support",
+                    "asset_id": "SUPPORT ID NEEDED",
+                    "location": "PARALLEL STORAGE LOCATION NEEDED",
+                    "photo": "PHOTO NEEDED",
+                    "notes": "Verify stock protrusion and clamp clearance.",
+                },
+            ]
+        )
+    return items
 
 
 def _infer_fixture(nc_text: str) -> str:
